@@ -1,0 +1,257 @@
+{
+  "mappings": {
+    "properties": {
+      "product_id": {
+        "type": "keyword"
+      },
+      "sku": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "autocomplete": {
+            "type": "text",
+            "analyzer": "autocomplete_analyzer",
+            "search_analyzer": "autocomplete_search_analyzer"
+          }
+        }
+      },
+      "description": {
+        "type": "text",
+        "analyzer": "standard",
+        "fields": {
+          "english": {
+            "type": "text",
+            "analyzer": "english"
+          }
+        }
+      },
+      "brand": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          },
+          "autocomplete": {
+            "type": "text",
+            "analyzer": "autocomplete_analyzer",
+            "search_analyzer": "autocomplete_search_analyzer"
+          }
+        }
+      },
+      "category": {
+        "type": "keyword"
+      },
+      "category_path": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "price": {
+        "type": "float"
+      },
+      "compare_at_price": {
+        "type": "float"
+      },
+      "currency": {
+        "type": "keyword"
+      },
+      "inventory": {
+        "type": "integer"
+      },
+      "in_stock": {
+        "type": "boolean"
+      },
+      "images": {
+        "properties": {
+          "url": {
+            "type": "keyword"
+          },
+          "is_primary": {
+            "type": "boolean"
+          },
+          "alt_text": {
+            "type": "text"
+          }
+        }
+      },
+      "attributes": {
+        "type": "nested",
+        "properties": {
+          "name": {
+            "type": "keyword"
+          },
+          "value": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "filterable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "variants": {
+        "type": "nested",
+        "properties": {
+          "variant_id": {
+            "type": "keyword"
+          },
+          "sku": {
+            "type": "keyword"
+          },
+          "price": {
+            "type": "float"
+          },
+          "inventory": {
+            "type": "integer"
+          },
+          "attributes": {
+            "type": "object",
+            "enabled": false
+          }
+        }
+      },
+      "ratings": {
+        "properties": {
+          "average": {
+            "type": "float"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "distribution": {
+            "type": "object",
+            "enabled": false
+          }
+        }
+      },
+      "reviews_count": {
+        "type": "integer"
+      },
+      "is_featured": {
+        "type": "boolean"
+      },
+      "is_bestseller": {
+        "type": "boolean"
+      },
+      "is_new": {
+        "type": "boolean"
+      },
+      "tags": {
+        "type": "keyword"
+      },
+      "created_at": {
+        "type": "date"
+      },
+      "updated_at": {
+        "type": "date"
+      },
+      "boost_score": {
+        "type": "float"
+      },
+      "suggest": {
+        "type": "completion",
+        "analyzer": "simple",
+        "search_analyzer": "simple",
+        "contexts": [
+          {
+            "name": "category",
+            "type": "category"
+          }
+        ]
+      },
+      "geo": {
+        "properties": {
+          "warehouse": {
+            "type": "geo_point",
+            "fields": {
+              "lat_lon": {
+                "type": "geo_point"
+              }
+            }
+          },
+          "delivery_radius_km": {
+            "type": "integer"
+          },
+          "delivery_zones": {
+            "type": "keyword",
+            "fields": {
+              "hierarchy": {
+                "type": "text",
+                "analyzer": "path_hierarchy_analyzer"
+              }
+            }
+          },
+          "postal_codes_served": {
+            "type": "keyword",
+            "normalizer": "postal_code_normalizer"
+          },
+          "delivery_cost_base": {
+            "type": "float"
+          },
+          "delivery_cost_per_km": {
+            "type": "float"
+          },
+          "available_regions": {
+            "type": "keyword",
+            "fields": {
+              "city": {
+                "type": "keyword"
+              },
+              "county": {
+                "type": "keyword"
+              }
+            }
+          },
+          "collection_points": {
+            "type": "nested",
+            "properties": {
+              "name": {
+                "type": "text"
+              },
+              "location": {
+                "type": "geo_point"
+              },
+              "address": {
+                "type": "text"
+              },
+              "opening_hours": {
+                "type": "object",
+                "enabled": false
+              }
+            }
+          },
+          "store_locations": {
+            "type": "nested",
+            "properties": {
+              "store_id": {
+                "type": "keyword"
+              },
+              "name": {
+                "type": "text"
+              },
+              "location": {
+                "type": "geo_point"
+              },
+              "in_stock": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
