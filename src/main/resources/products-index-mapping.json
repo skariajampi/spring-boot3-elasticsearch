@@ -44,6 +44,11 @@
           }
         }
       },
+      "status": {
+        "type": "keyword",
+        "doc_values": true,
+        "description": "The status of the product, formatted as \"active\" or \"discontinued\" or \"out_of_stock\" or \"preorder\"."
+      },
       "category": {
         "type": "keyword"
       },
@@ -51,24 +56,55 @@
         "type": "text",
         "fields": {
           "keyword": {
-            "type": "keyword"
+            "type": "keyword",
+            "ignore_above": 512
+          },
+          "hierarchy": {
+            "type": "text",
+            "analyzer": "path_hierarchy_analyzer",
+            "description": "For category breadcrumb search, formatted as \"/category1/category2\"."
           }
-        }
+        },
+        "description": "The category path of the product, formatted as \"/category1/category2\"."
       },
       "price": {
-        "type": "float"
+        "type": "scaled_float",
+        "scaling_factor": 100,
+        "ignore_malformed": true,
+        "description": "The price of the product, formatted as \"12.34\"."
       },
       "compare_at_price": {
-        "type": "float"
+        "type": "scaled_float",
+        "scaling_factor": 100,
+        "description": "The compare at price of the product, formatted as \"12.34\"."
+      },
+      "price_range": {
+        "type": "keyword",
+        "description": "The price range of the product, formatted as \"min-max\"."
       },
       "currency": {
         "type": "keyword"
       },
       "inventory": {
+        "type": "integer",
+        "doc_values": true
+      },
+      "inventory_threshold": {
         "type": "integer"
       },
-      "in_stock": {
+      "low_stock": {
         "type": "boolean"
+      },
+      "view_count": {
+        "type": "integer",
+        "doc_values": true
+      },
+      "purchase_count": {
+        "type": "integer",
+        "doc_values": true
+      },
+      "click_through_rate": {
+        "type": "float"
       },
       "images": {
         "properties": {
@@ -112,14 +148,32 @@
             "type": "keyword"
           },
           "price": {
-            "type": "float"
+            "type": "scaled_float",
+            "scaling_factor": 100,
+            "ignore_malformed": true
+          },
+          "compare_at_price": {
+            "type": "scaled_float",
+            "scaling_factor": 100
           },
           "inventory": {
             "type": "integer"
           },
           "attributes": {
-            "type": "object",
-            "enabled": false
+            "type": "nested",
+            "properties": {
+              "name": {
+                "type": "keyword"
+              },
+              "value": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -161,6 +215,10 @@
       "boost_score": {
         "type": "float"
       },
+      "search_boost_score": {
+        "type": "rank_feature",
+        "positive_score_impact": true
+      },
       "suggest": {
         "type": "completion",
         "analyzer": "simple",
@@ -168,6 +226,14 @@
         "contexts": [
           {
             "name": "category",
+            "type": "category"
+          },
+          {
+            "name": "brand",
+            "type": "category"
+          },
+          {
+            "name": "in_stock",
             "type": "category"
           }
         ]

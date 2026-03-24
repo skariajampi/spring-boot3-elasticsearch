@@ -8,7 +8,7 @@
         "autocomplete_analyzer": {
           "type": "custom",
           "tokenizer": "standard",
-          "filter": ["lowercase", "autocomplete_filter"]
+          "filter": ["lowercase", "edge_ngram_filter"]
         },
         "autocomplete_search_analyzer": {
           "type": "custom",
@@ -19,13 +19,23 @@
           "type": "custom",
           "tokenizer": "keyword",
           "filter": ["lowercase"]
+        },
+        "path_hierarchy_analyzer": {
+          "tokenizer": "path_hierarchy",
+          "filter": ["lowercase"]
         }
       },
       "filter": {
-        "autocomplete_filter": {
+        "edge_ngram_filter": {
           "type": "edge_ngram",
           "min_gram": 2,
           "max_gram": 20
+        }
+      },
+      "tokenizer": {
+        "path_hierarchy": {
+          "type": "path_hierarchy",
+          "delimiter": "/"
         }
       }
     }
