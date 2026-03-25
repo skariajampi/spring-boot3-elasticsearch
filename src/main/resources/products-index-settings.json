@@ -7,6 +7,12 @@
     "max_ngram_diff": 20,
     "index.lifecycle.name": "products_policy",
     "index.lifecycle.rollover_alias": "products",
+    "index.translog.durability": "async",
+    "index.translog.sync_interval": "5s",
+    "index.translog.flush_threshold_size": "1024mb",
+    "index.merge.scheduler.max_thread_count": 1,
+    "index.search.slowlog.threshold.query.warn": "2s",
+    "index.search.slowlog.threshold.query.info": "1s",
     "analysis": {
       "normalizer": {
         "postal_code_normalizer": {
