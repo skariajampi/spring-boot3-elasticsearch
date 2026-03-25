@@ -126,10 +126,11 @@
             "type": "keyword"
           },
           "value": {
-            "type": "text",
+            "type": "keyword",
             "fields": {
-              "keyword": {
-                "type": "keyword"
+              "text": {
+                "type": "text",
+                "analyzer": "standard"
               }
             }
           },
@@ -238,6 +239,14 @@
           }
         ]
       },
+      "in_stock": {
+        "type": "boolean",
+        "doc_values": true,
+        "copy_to": [
+          "suggest.contexts.in_stock",
+          "geo.store_locations.store_in_stock"
+        ]
+      },
       "geo": {
         "properties": {
           "warehouse": {
@@ -311,7 +320,7 @@
               "location": {
                 "type": "geo_point"
               },
-              "in_stock": {
+              "store_in_stock": {
                 "type": "boolean"
               }
             }

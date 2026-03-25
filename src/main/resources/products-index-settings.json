@@ -3,26 +3,49 @@
     "number_of_shards": 3,
     "number_of_replicas": 1,
     "refresh_interval": "30s",
+    "max_result_window": 10000,
+    "max_ngram_diff": 20,
+    "index.lifecycle.name": "products_policy",
+    "index.lifecycle.rollover_alias": "products",
     "analysis": {
+      "normalizer": {
+        "postal_code_normalizer": {
+          "type": "custom",
+          "filter": [
+            "uppercase",
+            "trim"
+          ]
+        }
+      },
       "analyzer": {
         "autocomplete_analyzer": {
           "type": "custom",
           "tokenizer": "standard",
-          "filter": ["lowercase", "edge_ngram_filter"]
+          "filter": [
+            "lowercase",
+            "edge_ngram_filter"
+          ]
         },
         "autocomplete_search_analyzer": {
           "type": "custom",
           "tokenizer": "standard",
-          "filter": ["lowercase"]
+          "filter": [
+            "lowercase"
+          ]
         },
         "keyword_lowercase_analyzer": {
           "type": "custom",
           "tokenizer": "keyword",
-          "filter": ["lowercase"]
+          "filter": [
+            "lowercase"
+          ]
         },
         "path_hierarchy_analyzer": {
+          "type": "custom",
           "tokenizer": "path_hierarchy",
-          "filter": ["lowercase"]
+          "filter": [
+            "lowercase"
+          ]
         }
       },
       "filter": {
