@@ -46,8 +46,7 @@
       },
       "status": {
         "type": "keyword",
-        "doc_values": true,
-        "description": "The status of the product, formatted as \"active\" or \"discontinued\" or \"out_of_stock\" or \"preorder\"."
+        "doc_values": true
       },
       "category": {
         "type": "keyword"
@@ -61,26 +60,21 @@
           },
           "hierarchy": {
             "type": "text",
-            "analyzer": "path_hierarchy_analyzer",
-            "description": "For category breadcrumb search, formatted as \"/category1/category2\"."
+            "analyzer": "path_hierarchy_analyzer"
           }
-        },
-        "description": "The category path of the product, formatted as \"/category1/category2\"."
+        }
       },
       "price": {
         "type": "scaled_float",
         "scaling_factor": 100,
-        "ignore_malformed": true,
-        "description": "The price of the product, formatted as \"12.34\"."
+        "ignore_malformed": true
       },
       "compare_at_price": {
         "type": "scaled_float",
-        "scaling_factor": 100,
-        "description": "The compare at price of the product, formatted as \"12.34\"."
+        "scaling_factor": 100
       },
       "price_range": {
-        "type": "keyword",
-        "description": "The price range of the product, formatted as \"min-max\"."
+        "type": "keyword"
       },
       "currency": {
         "type": "keyword"
@@ -239,23 +233,10 @@
           }
         ]
       },
-      "in_stock": {
-        "type": "boolean",
-        "doc_values": true,
-        "copy_to": [
-          "suggest.contexts.in_stock",
-          "geo.store_locations.store_in_stock"
-        ]
-      },
       "geo": {
         "properties": {
           "warehouse": {
-            "type": "geo_point",
-            "fields": {
-              "lat_lon": {
-                "type": "geo_point"
-              }
-            }
+            "type": "geo_point"
           },
           "delivery_radius_km": {
             "type": "integer"
@@ -280,8 +261,8 @@
             "type": "float"
           },
           "available_regions": {
-            "type": "keyword",
-            "fields": {
+            "type": "object",
+            "properties": {
               "city": {
                 "type": "keyword"
               },
