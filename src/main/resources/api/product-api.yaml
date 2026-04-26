@@ -25,6 +25,38 @@ paths:
         '404':
           description: Product not found
 
+  /products/search:
+    get:
+      summary: Search products with filtering and faceting
+      operationId: searchProducts
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 10
+        - name: state
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Search results with metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+
 components:
   schemas:
     ProductResponse:
@@ -144,3 +176,55 @@ components:
           type: boolean
         isNew:
           type: boolean
+
+        # The "Wrapper" for your search results
+    SearchResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductResponse'
+        facets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Facet'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        timeTaken:
+          type: integer
+          format: int64
+
+    # Your custom Pagination contract
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+
+    # Faceting for filters
+    Facet:
+      type: object
+      properties:
+        name:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacetItem'
+
+    FacetItem:
+      type: object
+      properties:
+        key:
+          type: string
+        count:
+          type: integer
+          format: int64

@@ -1,7 +1,7 @@
 package org.example.skaria.elasticsearch.springboot3elasticsearch.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.skaria.elasticsearch.springboot3elasticsearch.dto.SearchResponse;
+import org.example.skaria.elasticsearch.springboot3elasticsearch.model.SearchResponse;
 import org.example.skaria.elasticsearch.springboot3elasticsearch.entity.ProductDocument;
 import org.example.skaria.elasticsearch.springboot3elasticsearch.repository.ProductRepository;
 import org.springframework.data.domain.Page;

@@ -2,7 +2,7 @@ openapi-processor-mapping: v14
 
 options:
   # target package (required): io.openapiprocessor.generated (default)
-  package-name: generated
+  package-name: org.example.skaria.elasticsearch.springboot3elasticsearch
 
   # validation annotation (optional): true or false (default), javax, jakarta.
   bean-validation: jakarta
@@ -14,7 +14,7 @@ options:
   format-code: false
 
   # suffix for model class names and enum names. Default is none.
-  model-name-suffix: DTO
+#   model-name-suffix: DTO
 
   # default (i.e pojo) or record
   model-type: record
@@ -38,6 +38,7 @@ options:
   json-property-annotation: always
 
 map:
+
   types:
     - type: string:uuid => java.util.UUID
     - type: array => java.util.Collection
