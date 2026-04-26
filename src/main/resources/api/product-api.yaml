@@ -137,7 +137,6 @@ components:
 
     ProductFlags:
       type: object
-      type: object
       properties:
         isFeatured:
           type: boolean
