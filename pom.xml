@@ -115,40 +115,67 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.4.0</version> <executions>
-                <execution>
-                    <goals>
-                        <goal>generate</goal>
-                    </goals>
-                    <configuration>
-                        <inputSpec>${project.basedir}/src/main/resources/api/product-api.yaml</inputSpec>
+                <groupId>io.openapiprocessor</groupId>
+                <artifactId>openapi-processor-maven-plugin</artifactId>
+                <!-- to update to the latest version, see maven central badge at top -->
+                <version>2026.1</version>
 
-                        <generatorName>spring</generatorName>
-                        <library>spring-boot</library>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.openapiprocessor</groupId>
+                        <artifactId>openapi-processor-spring</artifactId>
+                        <version>2026.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.openapiprocessor</groupId>
+                        <artifactId>openapi-processor-json</artifactId>
+                        <version>2026.1</version>
+                    </dependency>
+                </dependencies>
 
-                        <apiPackage>org.example.skaria.api</apiPackage>
-                        <modelPackage>org.example.skaria.dto</modelPackage>
+                <configuration>
+                    <id>processor-api</id>
+                    <apiPath>${project.basedir}/src/main/resources/api/product-api.yaml</apiPath>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>spring-interfaces</id>
+                        <phase>generate-sources</phase>
 
-                        <configOptions>
-                            <interfaceOnly>true</interfaceOnly>
-                            <useSpringBoot3>true</useSpringBoot3>
-                            <useJakartaEe>true</useJakartaEe>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <useSpringBoot3>true</useSpringBoot3>
-                            <useJakartaEe>true</useJakartaEe>
-                            <serializationModel>true</serializationModel>
-                            <useRecords>true</useRecords>
-                            <immutableModels>true</immutableModels>
-                            <sourceFolder>src/gen/java/main</sourceFolder>
-                            <typeMappings>
-                                <typeMapping>Double=java.math.BigDecimal</typeMapping>
-                            </typeMappings>
-                        </configOptions>
-                    </configuration>
-                </execution>
-            </executions>
+                        <configuration>
+                            <id>spring</id>
+                            <processor>spring</processor>
+
+                            <!-- true is default -->
+                            <addSourceRoot>true</addSourceRoot>
+
+                            <!--
+                            <apiPath>${project.basedir}/src/api/openapi.yaml</apiPath>
+                            -->
+
+                            <options>
+                                <values>
+                                    <targetDir>${project.basedir}/target/generated-sources/openapi</targetDir>
+                                    <mapping>${project.basedir}/src/main/resources/api/mapping.yaml</mapping>
+                                    <parser>INTERNAL</parser> <!-- default -->
+                                    <showWarnings>true</showWarnings>
+                                </values>
+
+                                <!--<nested>
+                                    <name>foo</name>
+                                    <values>
+                                        <bar>foo-bar</bar>
+                                    </values>
+                                </nested>-->
+
+                            </options>
+                        </configuration>
+
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

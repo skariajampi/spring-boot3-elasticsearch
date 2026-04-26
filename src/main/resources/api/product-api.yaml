@@ -21,13 +21,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProductResponseDTO'
+                $ref: '#/components/schemas/ProductResponse'
         '404':
           description: Product not found
 
 components:
   schemas:
-    ProductResponseDTO:
+    ProductResponse:
       type: object
       properties:
         productId:
@@ -66,24 +66,24 @@ components:
         images:
           type: array
           items:
-            $ref: '#/components/schemas/ImageDTO'
+            $ref: '#/components/schemas/Image'
         attributes:
           type: array
           items:
-            $ref: '#/components/schemas/AttributeDTO'
+            $ref: '#/components/schemas/Attribute'
         variants:
           type: array
           items:
-            $ref: '#/components/schemas/VariantDTO'
+            $ref: '#/components/schemas/Variant'
         ratings:
-          $ref: '#/components/schemas/RatingsDTO'
+          $ref: '#/components/schemas/Ratings'
         flags:
-          $ref: '#/components/schemas/ProductFlagsDTO'
+          $ref: '#/components/schemas/ProductFlags'
         createdAt:
           type: string
           format: date-time
 
-    ImageDTO:
+    Image:
       type: object
       properties:
         url:
@@ -93,7 +93,7 @@ components:
         altText:
           type: string
 
-    AttributeDTO:
+    Attribute:
       type: object
       properties:
         name:
@@ -103,7 +103,7 @@ components:
         filterable:
           type: boolean
 
-    VariantDTO:
+    Variant:
       type: object
       properties:
         variantId:
@@ -119,9 +119,9 @@ components:
         attributes:
           type: array
           items:
-            $ref: '#/components/schemas/AttributeDTO'
+            $ref: '#/components/schemas/Attribute'
 
-    RatingsDTO:
+    Ratings:
       type: object
       properties:
         average:
@@ -135,7 +135,8 @@ components:
             type: integer
           description: "Map of star ratings (e.g., {'5': 100})"
 
-    ProductFlagsDTO:
+    ProductFlags:
+      type: object
       type: object
       properties:
         isFeatured:
