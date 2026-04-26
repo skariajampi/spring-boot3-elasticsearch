@@ -1,0 +1,146 @@
+openapi: 3.0.3
+info:
+  title: Product Search API
+  description: High-performance product catalog and search service.
+  version: 1.0.0
+
+paths:
+  /products/{id}:
+    get:
+      summary: Get product details by ID
+      operationId: getProductById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponseDTO'
+        '404':
+          description: Product not found
+
+components:
+  schemas:
+    ProductResponseDTO:
+      type: object
+      properties:
+        productId:
+          type: string
+          example: "PROD-123"
+        sku:
+          type: string
+        title:
+          type: string
+          example: "Ultra Wireless Headphones"
+        brand:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        categoryPath:
+          type: string
+          example: "Electronics/Audio/Headphones"
+        price:
+          type: number
+          format: double
+        compareAtPrice:
+          type: number
+          format: double
+        currency:
+          type: string
+          example: "USD"
+        inventory:
+          type: integer
+        lowStock:
+          type: boolean
+        status:
+          type: string
+          enum: [ACTIVE, OUT_OF_STOCK, DISCONTINUED]
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageDTO'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeDTO'
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariantDTO'
+        ratings:
+          $ref: '#/components/schemas/RatingsDTO'
+        flags:
+          $ref: '#/components/schemas/ProductFlagsDTO'
+        createdAt:
+          type: string
+          format: date-time
+
+    ImageDTO:
+      type: object
+      properties:
+        url:
+          type: string
+        isPrimary:
+          type: boolean
+        altText:
+          type: string
+
+    AttributeDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+        filterable:
+          type: boolean
+
+    VariantDTO:
+      type: object
+      properties:
+        variantId:
+          type: string
+        sku:
+          type: string
+        price:
+          type: number
+        compareAtPrice:
+          type: number
+        inventory:
+          type: integer
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeDTO'
+
+    RatingsDTO:
+      type: object
+      properties:
+        average:
+          type: number
+          format: float
+        count:
+          type: integer
+        distribution:
+          type: object
+          additionalProperties:
+            type: integer
+          description: "Map of star ratings (e.g., {'5': 100})"
+
+    ProductFlagsDTO:
+      type: object
+      properties:
+        isFeatured:
+          type: boolean
+        isBestseller:
+          type: boolean
+        isNew:
+          type: boolean

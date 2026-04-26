@@ -4,16 +4,14 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 import org.springframework.data.elasticsearch.core.suggest.Completion;
-import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Document(indexName = "products")
-@Setting(settingPath = "products-index-settings.json") // Point to your analyzer definitions
+@Setting(settingPath = "elasticsearch/products-index-settings.json") // Point to your analyzer definitions
 public class ProductDocument {
 
     @Id
