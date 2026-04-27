@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import java.util.Map;
 
 @Data
-class CollectionPoint {
+public class CollectionPoint {
     @Field(type = FieldType.Text)
     private String name;
 

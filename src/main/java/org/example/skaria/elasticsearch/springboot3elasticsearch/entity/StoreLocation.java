@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 
 @Data
-class StoreLocation {
+public class StoreLocation {
     @Field(name = "store_id", type = FieldType.Keyword)
     private String storeId;
 

@@ -43,4 +43,5 @@ map:
     - type: string:uuid => java.util.UUID
     - type: array => java.util.Collection
     - type: Doubles => java.util.Map<java.lang.String, java.util.List<java.lang.Double>>
-    - type: Foo @ io.openapiprocessor.FooAnnotation(foo = 5)
+      # Tell the processor to use a Map for this specific schema name or type
+    - type: RatingsDistribution => java.util.Map<java.lang.String, java.lang.Integer>

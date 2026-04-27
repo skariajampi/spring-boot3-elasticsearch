@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.InnerField;
 import org.springframework.data.elasticsearch.annotations.MultiField;
 
 @Data
-class Attribute {
+public class Attribute {
     @Field(type = FieldType.Keyword)
     private String name;
 

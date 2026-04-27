@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-class ProductVariant {
+public class ProductVariant {
     @Field(name = "variant_id", type = FieldType.Keyword)
     private String variantId;
     

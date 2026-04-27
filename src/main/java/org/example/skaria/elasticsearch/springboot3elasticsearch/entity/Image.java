@@ -5,7 +5,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Data
-class Image {
+public class Image {
     @Field(type = FieldType.Keyword)
     private String url;
     @Field(name = "is_primary", type = FieldType.Boolean)
