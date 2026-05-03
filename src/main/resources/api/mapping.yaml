@@ -14,7 +14,7 @@ options:
   format-code: false
 
   # suffix for model class names and enum names. Default is none.
-#   model-name-suffix: DTO
+  model-name-suffix: DTO
 
   # default (i.e pojo) or record
   model-type: record

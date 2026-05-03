@@ -1,10 +1,10 @@
 package org.example.skaria.elasticsearch.springboot3elasticsearch.mapper;
 
    // Your manual ES Entity
+
 import org.example.skaria.elasticsearch.springboot3elasticsearch.entity.ProductDocument;
-import org.example.skaria.elasticsearch.springboot3elasticsearch.model.ProductResponse;
+import org.example.skaria.elasticsearch.springboot3elasticsearch.model.ProductDTO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.data.elasticsearch.core.SearchHit;
 
 import java.time.Instant;
@@ -23,14 +23,14 @@ public interface ProductMapper {
     //@Mapping(source = "id", target = "productId") // If your Entity uses 'id' but YAML uses 'productId'
     //@Mapping(source = "avgRating", target = "ratings.average")
     //@Mapping(source = "reviewCount", target = "ratings.count")
-    ProductResponse toDto(ProductDocument entity);
+    ProductDTO toDto(ProductDocument entity);
 
     // 2. Map a list of documents
-    List<ProductResponse> toDtoList(List<ProductDocument> entities);
+    List<ProductDTO> toDtoList(List<ProductDocument> entities);
 
     // 3. Senior Dev Tip: Map directly from Elasticsearch SearchHit
     // This allows you to map metadata like 'score' if needed later
-    default ProductResponse fromSearchHit(SearchHit<ProductDocument> hit) {
+    default ProductDTO fromSearchHit(SearchHit<ProductDocument> hit) {
         return toDto(hit.getContent());
     }
 

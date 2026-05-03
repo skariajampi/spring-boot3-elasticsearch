@@ -21,7 +21,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProductResponse'
+                $ref: '#/components/schemas/Product'
         '404':
           description: Product not found
 
@@ -116,7 +116,7 @@ components:
         sort:
           type: string
 
-    ProductResponse:
+    Product:
       type: object
       properties:
         productId:
@@ -241,7 +241,7 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/ProductResponse'
+            $ref: '#/components/schemas/Product'
         facets:
           type: array
           items:

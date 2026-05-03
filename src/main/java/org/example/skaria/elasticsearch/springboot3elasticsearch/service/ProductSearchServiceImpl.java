@@ -1,14 +1,11 @@
 package org.example.skaria.elasticsearch.springboot3elasticsearch.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.skaria.elasticsearch.springboot3elasticsearch.model.SearchResponse;
 import org.example.skaria.elasticsearch.springboot3elasticsearch.entity.ProductDocument;
+import org.example.skaria.elasticsearch.springboot3elasticsearch.model.SearchResponseDTO;
 import org.example.skaria.elasticsearch.springboot3elasticsearch.repository.ProductRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.SearchHitSupport;
-import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +19,7 @@ public class ProductSearchServiceImpl implements ProductSearchService{
     private final ElasticsearchOperations elasticsearchOperations;
 
     @Override
-    public SearchResponse searchProducts(String query, Pageable pageable) {
+    public SearchResponseDTO searchProducts(String query, Pageable pageable) {
         return null;
     }
 
