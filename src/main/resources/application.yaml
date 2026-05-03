@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: spring-boot3-elasticsearch
+  elasticsearch:
+    uris: https://localhost:9200
+    username: elastic
+    password: password123
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+
+
+

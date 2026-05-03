@@ -1,0 +1,87 @@
+{
+  "productId": "PROD-1001",
+  "sku": "SKU-SONY-1001",
+  "title": "Ultra Wireless Headphones",
+  "brand": "Sony",
+  "description": "Premium wireless noise cancelling headphones",
+  "category": "Electronics",
+  "categoryPath": "Electronics/Audio/Headphones",
+  "price": 299.99,
+  "compareAtPrice": 349.99,
+  "currency": "USD",
+  "inventory": 50,
+  "lowStock": false,
+  "status": "ACTIVE",
+
+  "images": [
+    {
+      "url": "https://cdn.test.com/products/prod-1001/main.jpg",
+      "isPrimary": true,
+      "altText": "Front product image"
+    }
+  ],
+
+  "attributes": [
+    {
+      "name": "color",
+      "value": "Black",
+      "filterable": true
+    },
+    {
+      "name": "connectivity",
+      "value": "Bluetooth",
+      "filterable": true
+    }
+  ],
+
+  "variants": [
+    {
+      "variantId": "VAR-1001-BLK",
+      "sku": "SKU-SONY-1001-BLK",
+      "price": 299.99,
+      "compareAtPrice": 349.99,
+      "inventory": 25,
+      "attributes": [
+        {
+          "name": "color",
+          "value": "Black",
+          "filterable": true
+        }
+      ]
+    },
+    {
+      "variantId": "VAR-1001-WHT",
+      "sku": "SKU-SONY-1001-WHT",
+      "price": 299.99,
+      "compareAtPrice": 349.99,
+      "inventory": 25,
+      "attributes": [
+        {
+          "name": "color",
+          "value": "White",
+          "filterable": true
+        }
+      ]
+    }
+  ],
+
+  "ratings": {
+    "average": 4.7,
+    "count": 1250,
+    "distribution": {
+      "5": 1000,
+      "4": 180,
+      "3": 50,
+      "2": 15,
+      "1": 5
+    }
+  },
+
+  "flags": {
+    "isFeatured": true,
+    "isBestseller": true,
+    "isNew": true
+  },
+
+  "createdAt": "2025-01-15T10:30:00Z"
+}

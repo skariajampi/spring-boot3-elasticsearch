@@ -1,0 +1,78 @@
+{
+  "productId": "PROD-3003",
+  "sku": "SKU-AT-3003",
+  "title": "Studio Reference Wired Headphones",
+  "brand": "Audio-Technica",
+  "description": "Professional over-ear studio headphones designed for mixing, mastering, and monitoring.",
+  "category": "Electronics",
+  "categoryPath": "Electronics/Audio/Studio Headphones",
+  "price": 179.99,
+  "compareAtPrice": 219.99,
+  "currency": "USD",
+  "inventory": 7,
+  "lowStock": true,
+  "status": "OUT_OF_STOCK",
+
+  "images": [
+    {
+      "url": "https://cdn.test.com/products/prod-3003/main.jpg",
+      "isPrimary": true,
+      "altText": "Studio headphones"
+    }
+  ],
+
+  "attributes": [
+    {
+      "name": "color",
+      "value": "Black",
+      "filterable": true
+    },
+    {
+      "name": "impedance",
+      "value": "38 Ohms",
+      "filterable": true
+    },
+    {
+      "name": "cableType",
+      "value": "Detachable",
+      "filterable": true
+    }
+  ],
+
+  "variants": [
+    {
+      "variantId": "VAR-3003-STD",
+      "sku": "SKU-AT-3003-STD",
+      "price": 179.99,
+      "compareAtPrice": 219.99,
+      "inventory": 7,
+      "attributes": [
+        {
+          "name": "edition",
+          "value": "Standard",
+          "filterable": true
+        }
+      ]
+    }
+  ],
+
+  "ratings": {
+    "average": 4.8,
+    "count": 426,
+    "distribution": {
+      "5": 360,
+      "4": 48,
+      "3": 12,
+      "2": 4,
+      "1": 2
+    }
+  },
+
+  "flags": {
+    "isFeatured": false,
+    "isBestseller": false,
+    "isNew": false
+  },
+
+  "createdAt": "2026-02-10T09:45:00Z"
+}

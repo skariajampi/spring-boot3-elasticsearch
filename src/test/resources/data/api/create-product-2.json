@@ -1,0 +1,97 @@
+{
+  "productId": "PROD-2002",
+  "sku": "SKU-BOSE-2002",
+  "title": "Premium Noise Cancelling Earbuds",
+  "brand": "Bose",
+  "description": "True wireless earbuds with adaptive noise cancellation and fast charging.",
+  "category": "Electronics",
+  "categoryPath": "Electronics/Audio/Earbuds",
+  "price": 249.99,
+  "compareAtPrice": 299.99,
+  "currency": "USD",
+  "inventory": 85,
+  "lowStock": false,
+  "status": "ACTIVE",
+
+  "images": [
+    {
+      "url": "https://cdn.test.com/products/prod-2002/front.jpg",
+      "isPrimary": true,
+      "altText": "Front view"
+    },
+    {
+      "url": "https://cdn.test.com/products/prod-2002/case.jpg",
+      "isPrimary": false,
+      "altText": "Charging case"
+    }
+  ],
+
+  "attributes": [
+    {
+      "name": "color",
+      "value": "Silver",
+      "filterable": true
+    },
+    {
+      "name": "battery",
+      "value": "36 Hours",
+      "filterable": true
+    },
+    {
+      "name": "waterResistance",
+      "value": "IPX4",
+      "filterable": true
+    }
+  ],
+
+  "variants": [
+    {
+      "variantId": "VAR-2002-SLV",
+      "sku": "SKU-BOSE-2002-SLV",
+      "price": 249.99,
+      "compareAtPrice": 299.99,
+      "inventory": 45,
+      "attributes": [
+        {
+          "name": "color",
+          "value": "Silver",
+          "filterable": true
+        }
+      ]
+    },
+    {
+      "variantId": "VAR-2002-BLK",
+      "sku": "SKU-BOSE-2002-BLK",
+      "price": 249.99,
+      "compareAtPrice": 299.99,
+      "inventory": 40,
+      "attributes": [
+        {
+          "name": "color",
+          "value": "Black",
+          "filterable": true
+        }
+      ]
+    }
+  ],
+
+  "ratings": {
+    "average": 4.5,
+    "count": 842,
+    "distribution": {
+      "5": 620,
+      "4": 150,
+      "3": 50,
+      "2": 15,
+      "1": 7
+    }
+  },
+
+  "flags": {
+    "isFeatured": false,
+    "isBestseller": true,
+    "isNew": true
+  },
+
+  "createdAt": "2026-04-20T14:15:00Z"
+}
