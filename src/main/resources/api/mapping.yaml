@@ -45,3 +45,4 @@ map:
     - type: Doubles => java.util.Map<java.lang.String, java.util.List<java.lang.Double>>
       # Tell the processor to use a Map for this specific schema name or type
     - type: RatingsDistribution => java.util.Map<java.lang.String, java.lang.Integer>
+

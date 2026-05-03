@@ -30,25 +30,13 @@ paths:
       summary: Search products with filtering and faceting
       operationId: searchProducts
       parameters:
-        - name: query
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: page
-          in: query
-          schema:
-            type: integer
-            default: 0
-        - name: size
-          in: query
-          schema:
-            type: integer
-            default: 10
-        - name: state
-          in: query
-          schema:
-            type: string
+         - name: search
+           in: query
+           style: deepObject
+           explode: true
+           schema:
+            $ref: '#/components/schemas/SearchProductsRequest'
+
       responses:
         '200':
           description: Search results with metadata
@@ -59,6 +47,75 @@ paths:
 
 components:
   schemas:
+    SearchProductsRequest:
+      type: object
+      properties:
+        # 1. Core Search
+        query:
+          type: string
+          default: "*"
+
+        # 2. Exact Match Filters
+        status:
+          type: string
+        category:
+          type: string
+        categoryPath:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+
+        # 3. Inventory & Boolean Flags
+        inStockOnly:
+          type: boolean
+        isFeatured:
+          type: boolean
+        isNew:
+          type: boolean
+
+        # 4. Dynamic Attributes (The Map)
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+
+        # 5. Ratings
+        minRating:
+          type: number
+          format: double
+
+        # 6. Location & Fulfillment
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
+        distance:
+          type: string
+        regions:
+          type: array
+          items:
+            type: string
+        storeIds:
+          type: array
+          items:
+            type: string
+
+        # 7. Metadata
+        page:
+          type: integer
+          default: 0
+        size:
+          type: integer
+          default: 20
+        sort:
+          type: string
+
     ProductResponse:
       type: object
       properties:
