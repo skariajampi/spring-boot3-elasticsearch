@@ -60,4 +60,13 @@ public interface ProductMapper {
         }
         return instant.atOffset(ZoneOffset.UTC);
     }
+
+    default Instant map(OffsetDateTime offsetDateTime) {
+        if (offsetDateTime == null) {
+            return null;
+        }
+        return offsetDateTime.toInstant();
+    }
+
+    ProductDocument toDocument(ProductDTO productDTO);
 }
