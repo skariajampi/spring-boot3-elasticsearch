@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot3-elasticsearch
+  namespace: production
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spring-boot3-elasticsearch
+  template:
+    metadata:
+      labels:
+        app: spring-boot3-elasticsearch
+    spec:
+      nodeSelector:
+        role: main  # Deploy to Dell 7820
+      containers:
+        - name: spring-boot3-elasticsearch
+          image: skariaj/spring-boot3-elasticsearch:latest  # Will be replaced by Jenkins
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "production"
+#            - name: SPRING_DATASOURCE_URL
+#              value: "jdbc:postgresql://postgres.production.svc.cluster.local:5432/spring-boot3-elasticsearch"
+#            - name: SPRING_DATASOURCE_USERNAME
+#              valueFrom:
+#                secretKeyRef:
+#                  name: db-secret
+#                  key: username
+#            - name: SPRING_DATASOURCE_PASSWORD
+#              valueFrom:
+#                secretKeyRef:
+#                  name: db-secret
+#                  key: password
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 8080
+            initialDelaySeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-boot3-elasticsearch
+  namespace: production
+spec:
+  selector:
+    app: spring-boot3-elasticsearch
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: ClusterIP
