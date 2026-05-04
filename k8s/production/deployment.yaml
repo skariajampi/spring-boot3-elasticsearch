@@ -23,6 +23,18 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "production"
+            - name: SPRING_ELASTICSEARCH_URIS
+              value: https://elasticsearch.production.svc.cluster.local:9200
+            - name: SPRING_ELASTICSEARCH_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: elastic-secret
+                  key: username
+            - name: SPRING_ELASTICSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elastic-secret
+                  key: password
 #            - name: SPRING_DATASOURCE_URL
 #              value: "jdbc:postgresql://postgres.production.svc.cluster.local:5432/spring-boot3-elasticsearch"
 #            - name: SPRING_DATASOURCE_USERNAME
