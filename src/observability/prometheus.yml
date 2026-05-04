@@ -3,22 +3,11 @@ global:
 
 scrape_configs:
   - job_name: "spring-boot"
+    scheme: http
     metrics_path: "/actuator/prometheus"
     static_configs:
       - targets: ["host.docker.internal:8080"]
 
   - job_name: "elasticsearch"
-    scheme: https
-
-    tls_config:
-      insecure_skip_verify: true
-
-    basic_auth:
-      username: elastic
-      password: password123
-
     static_configs:
-      - targets:
-          - es01:9200
-          - es02:9200
-          - es03:9200
+      - targets: [ "elasticsearch-exporter:9114" ]

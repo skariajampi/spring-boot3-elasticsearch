@@ -10,13 +10,7 @@ exporters:
   debug:
     verbosity: detailed
 
-#  prometheus:
-#    endpoint: "0.0.0.0:8889"
 
-#  otlp:
-#    endpoint: tempo:4317
-#    tls:
-#      insecure: true
 
 processors:
   batch:

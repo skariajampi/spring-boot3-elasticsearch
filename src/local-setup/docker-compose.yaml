@@ -261,5 +261,13 @@ services:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
 
+  elasticsearch-exporter:
+    image: quay.io/prometheuscommunity/elasticsearch-exporter:v1.7.0
+    command:
+      - "--es.uri=https://elastic:password123@es01:9200"
+      - "--es.ssl-skip-verify"
+    ports:
+      - "9114:9114"
+
 volumes:
   grafana-data:
