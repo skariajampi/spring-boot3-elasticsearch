@@ -12,3 +12,33 @@ spring:
 
 
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: spring-boot3-elasticsearch
+      environment: local
+
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+
+  otlp:
+    tracing:
+      endpoint: http://localhost:4318/v1/traces
+otel:
+  exporter:
+    otlp:
+      endpoint: http://localhost:4318/v1/logs
+logging:
+  pattern:
+    correlationId: "[%X{traceId:-}, %X{spanId:-}]"
