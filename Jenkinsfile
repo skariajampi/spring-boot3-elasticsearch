@@ -156,11 +156,11 @@ spec:
                     '''
                 }
             }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
+//             post {
+//                 always {
+//                     junit 'target/surefire-reports/*.xml'
+//                 }
+//             }
         }
 
         // ============ STAGE 2: INTEGRATION TESTS (develop, release, main, hotfix) ============
