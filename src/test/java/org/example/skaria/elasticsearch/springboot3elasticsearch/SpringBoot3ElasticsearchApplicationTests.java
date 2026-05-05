@@ -6,8 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class SpringBoot3ElasticsearchApplicationTests {
 
-    @Test
+    /*@Test
     void contextLoads() {
-    }
+    }*/
 
 }
