@@ -122,7 +122,7 @@ spec:
     image: jenkins/inbound-agent:latest
     args: ["$(JENKINS_SECRET)", "$(JENKINS_NAME)"]
   - name: maven
-    image: maven:3.9-eclipse-temurin-17
+    image: maven:3.9.6-eclipse-temurin-21
     command: ["sleep"]
     args: ["infinity"]
     volumeMounts:
@@ -156,11 +156,11 @@ spec:
                     '''
                 }
             }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
+//             post {
+//                 always {
+//                     junit 'target/surefire-reports/*.xml'
+//                 }
+//             }
         }
 
         // ============ STAGE 2: INTEGRATION TESTS (develop, release, main, hotfix) ============
@@ -188,7 +188,7 @@ spec:
     image: jenkins/inbound-agent:latest
     args: ["$(JENKINS_SECRET)", "$(JENKINS_NAME)"]
   - name: maven
-    image: maven:3.9-eclipse-temurin-17
+    image: maven:3.9.6-eclipse-temurin-21
     command: ["sleep"]
     args: ["infinity"]
     volumeMounts:
@@ -249,7 +249,7 @@ spec:
     image: jenkins/inbound-agent:latest
     args: ["$(JENKINS_SECRET)", "$(JENKINS_NAME)"]
   - name: maven
-    image: maven:3.9-eclipse-temurin-17
+    image: maven:3.9.6-eclipse-temurin-21
     command: ["sleep"]
     args: ["infinity"]
     resources:
