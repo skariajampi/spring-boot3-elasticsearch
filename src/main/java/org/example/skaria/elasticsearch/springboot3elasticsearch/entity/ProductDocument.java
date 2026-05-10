@@ -1,5 +1,6 @@
 package org.example.skaria.elasticsearch.springboot3elasticsearch.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @Document(indexName = "products")
 @Setting(settingPath = "elasticsearch/products-index-settings.json") // Point to your analyzer definitions
+@Builder
 public class ProductDocument {
 
     @Id
