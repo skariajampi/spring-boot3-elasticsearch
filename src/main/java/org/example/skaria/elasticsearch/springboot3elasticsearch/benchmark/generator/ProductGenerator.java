@@ -3,6 +3,7 @@ package org.example.skaria.elasticsearch.springboot3elasticsearch.benchmark.gene
 import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import org.example.skaria.elasticsearch.springboot3elasticsearch.entity.ProductDocument;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Profile("benchmark")
 @Component
 @RequiredArgsConstructor
 public class ProductGenerator {
@@ -19,7 +21,7 @@ public class ProductGenerator {
     private final DataSetLoader data;
     private final Faker faker = new Faker();
 
-    public ProductDocument generate(long i) {
+    public ProductDocument generate(long i, String datasetVersion) {
 
         String brand = random(data.getBrands());
         String category = randomCategory();
@@ -41,7 +43,7 @@ public class ProductGenerator {
 
         return ProductDocument.builder()
                 .productId(UUID.randomUUID().toString())
-                .sku("SKU-" + i)
+                .sku("SKU-" + datasetVersion + "-" + i)
                 .brand(brand)
                 .category(category)
                 .title(title)

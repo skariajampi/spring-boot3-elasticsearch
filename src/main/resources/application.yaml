@@ -9,6 +9,8 @@ spring:
     elasticsearch:
       repositories:
         enabled: true
+  profiles:
+    active: dev
 
 
 
