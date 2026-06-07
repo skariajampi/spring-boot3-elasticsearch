@@ -245,6 +245,7 @@
                                 <useSpringBoot3>true</useSpringBoot3>
                                 <delegatePattern>true</delegatePattern>
                                 <java8>true</java8>
+                                <useTags>false</useTags>
                                 <!-- Important: Set model type to pojo for Lombok compatibility -->
                                 <modelType>pojo</modelType>
 

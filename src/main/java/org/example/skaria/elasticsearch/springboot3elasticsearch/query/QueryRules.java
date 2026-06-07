@@ -16,7 +16,7 @@ public class QueryRules {
             );
 
     public static final QueryRule TITLE_QUERY = QueryRule.of(
-            srp -> Objects.nonNull(srp.getCategory()),
+            srp -> Objects.nonNull(srp.getTitle()),
             srp -> buildTermQuery(ProductDocument.Fields.Title.KEYWORD.getValue(), srp.getTitle(), 1.0f)
     );
 
