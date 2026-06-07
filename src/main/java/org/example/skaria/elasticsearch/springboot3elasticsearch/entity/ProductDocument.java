@@ -2,6 +2,7 @@ package org.example.skaria.elasticsearch.springboot3elasticsearch.entity;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 import org.springframework.data.elasticsearch.core.suggest.Completion;
@@ -140,4 +141,118 @@ public class ProductDocument {
     //ranking
     @Field(name = "search_boost_score", type = FieldType.Rank_Feature)
     private Float searchBoostScore;
+
+    public static class Fields {
+        @Getter
+        public enum Core {
+            PRODUCT_ID("product_id"),
+            SKU("sku"),
+            DESCRIPTION("description"),
+            STATUS("status"),
+            CATEGORY("category"),
+            CATEGORY_PATH("category_path"),
+            PRICE("price"),
+            COMPARE_AT_PRICE("compare_at_price"),
+            PRICE_RANGE("price_range"),
+            CURRENCY("currency"),
+            INVENTORY("inventory"),
+            LOW_STOCK("low_stock"),
+            IMAGES("images"),
+            ATTRIBUTES("attributes"),
+            VARIANTS("variants"),
+            RATINGS("ratings"),
+            CREATED_AT("created_at"),
+            BOOST_SCORE("boost_score"),
+            SUGGEST("suggest"),
+            GEO("geo"),
+            INVENTORY_THRESHOLD("inventory_threshold"),
+            VIEW_COUNT("view_count"),
+            REVIEWS_COUNT("reviews_count"),
+            PURCHASE_COUNT("purchase_count"),
+            CLICK_THROUGH_RATE("click_through_rate"),
+            IS_FEATURED("is_featured"),
+            IS_BESTSELLER("is_bestseller"),
+            IS_NEW("is_new"),
+            TAGS("tags"),
+            UPDATED_AT("updated_at"),
+            SEARCH_BOOST_SCORE("search_boost_score"),
+            SEARCH_BOOST_SCORE_FIELD("search_boost_score"),
+            SEARCH_BOOST_SCORE_TYPE("rank_feature"),
+            SEARCH_BOOST_SCORE_VALUE("1.0"),
+            SEARCH_BOOST_SCORE_BOOST("1.0"),
+            SEARCH_BOOST_SCORE_MULTIPLIER("1.0");
+
+            private final String value;
+
+            Core(String value) {
+                this.value = value;
+            }
+
+            public String getValue() {
+                return value;
+            }
+
+            @Override
+            public String toString() {
+                return value;
+            }
+        }
+
+        @Getter
+        public enum Title {
+            MAIN("title"),
+            KEYWORD("title.keyword"),
+            AUTOCOMPLETE("title.autocomplete");
+
+            private String value;
+
+            Title(String value) {
+                this.value = value;
+            }
+
+            @Override
+            public String toString() {
+                return value;
+            }
+        }
+
+        @Getter
+        public enum Brand {
+            MAIN("brand"),
+            KEYWORD("brand.keyword"),
+            AUTOCOMPLETE("brand.autocomplete");
+
+            private String value;
+
+            Brand(String value) {
+                this.value = value;
+            }
+
+            @Override
+            public String toString() {
+                return value;
+            }
+
+        }
+
+        @Getter
+        public enum Aggregation {
+            BRAND("brand-terms-aggregate"),
+            CATEGORY("category-terms-aggregate"),
+            PRICE_RANGE("price-range-terms-aggregate");
+
+            private String value;
+
+            Aggregation(String value) {
+                this.value = value;
+            }
+
+            @Override
+            public String toString() {
+                return value;
+            }
+
+        }
+
+    }
 }

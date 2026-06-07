@@ -3,7 +3,7 @@ package org.example.skaria.elasticsearch.springboot3elasticsearch.mapper;
    // Your manual ES Entity
 
 import org.example.skaria.elasticsearch.springboot3elasticsearch.entity.ProductDocument;
-import org.example.skaria.elasticsearch.springboot3elasticsearch.model.ProductDTO;
+import org.example.skaria.elasticsearch.springboot3elasticsearch.dto.ProductDTO;
 import org.mapstruct.Mapper;
 import org.springframework.data.elasticsearch.core.SearchHit;
 

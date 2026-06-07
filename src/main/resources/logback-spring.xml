@@ -1,14 +1,22 @@
+<!-- logback-spring.xml -->
 <configuration>
+    <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <!-- Optional: include MDC properties like traceId, spanId -->
+            <includeMdcKeyName>traceId</includeMdcKeyName>
+            <includeMdcKeyName>spanId</includeMdcKeyName>
+        </encoder>
+    </appender>
 
-    <appender name="JSON"
-              class="ch.qos.logback.core.ConsoleAppender">
-
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-
+    <!-- Fallback plain console appender in case JSON fails -->
+    <appender name="PLAIN_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="JSON"/>
+        <!-- Use JSON by default, but you can switch to PLAIN_CONSOLE for debugging -->
+        <appender-ref ref="PLAIN_CONSOLE"/>
     </root>
-
 </configuration>

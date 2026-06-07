@@ -27,7 +27,7 @@
         <url/>
     </scm>
     <properties>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <jackson-core.version>2.19.4</jackson-core.version>
         <opentelemetry.version>1.49.0</opentelemetry.version>
         <javafaker.version>1.0.2</javafaker.version>
@@ -58,11 +58,11 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>2.2.20</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -111,6 +111,30 @@
             <version>${opentelemetry.version}</version>
         </dependency>
 
+        <!-- REQUIRED: The main springdoc starter for Spring Boot 3 -->
+        <!-- This handles the runtime and UI for your OpenAPI docs -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.8.10</version> <!-- Version 2.x works with Spring Boot 3.x -->
+        </dependency>
+
+        <!-- REQUIRED: Explicitly add the Jakarta-based Swagger v3 annotations -->
+        <!-- The generator uses these to annotate your API interfaces -->
+        <!--<dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
+            <version>2.2.22</version>
+        </dependency>-->
+
+        <!-- REQUIRED: Explicitly add the Jakarta-based Swagger v3 models -->
+        <!-- This is needed for the generated configuration class to compile -->
+        <!--<dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-models-jakarta</artifactId>
+            <version>2.2.22</version>
+        </dependency>-->
+
         <!-- structured logs -->
         <dependency>
             <groupId>net.logstash.logback</groupId>
@@ -142,8 +166,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.14.1</version>
                 <configuration>
-                    <source>21</source>
-                    <target>21</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.springframework.boot</groupId>
@@ -167,6 +191,27 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <banDuplicatePomDependencyVersions/>
+                                <requireJavaVersion>
+                                    <version>(${java.version},)</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -179,65 +224,39 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>io.openapiprocessor</groupId>
-                <artifactId>openapi-processor-maven-plugin</artifactId>
-                <!-- to update to the latest version, see maven central badge at top -->
-                <version>2026.1</version>
-
-                <dependencies>
-                    <dependency>
-                        <groupId>io.openapiprocessor</groupId>
-                        <artifactId>openapi-processor-spring</artifactId>
-                        <version>2026.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>io.openapiprocessor</groupId>
-                        <artifactId>openapi-processor-json</artifactId>
-                        <version>2026.1</version>
-                    </dependency>
-                </dependencies>
-
-                <configuration>
-                    <id>processor-api</id>
-                    <apiPath>${project.basedir}/src/main/resources/api/product-api.yaml</apiPath>
-                </configuration>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.8.0</version>
                 <executions>
                     <execution>
-                        <id>spring-interfaces</id>
-                        <phase>generate-sources</phase>
-
-                        <configuration>
-                            <id>spring</id>
-                            <processor>spring</processor>
-
-                            <!-- true is default -->
-                            <addSourceRoot>true</addSourceRoot>
-
-                            <!--
-                            <apiPath>${project.basedir}/src/api/openapi.yaml</apiPath>
-                            -->
-
-                            <options>
-                                <values>
-                                    <targetDir>${project.basedir}/target/generated-sources/openapi</targetDir>
-                                    <mapping>${project.basedir}/src/main/resources/api/mapping.yaml</mapping>
-                                    <parser>INTERNAL</parser> <!-- default -->
-                                    <showWarnings>true</showWarnings>
-                                </values>
-
-                                <!--<nested>
-                                    <name>foo</name>
-                                    <values>
-                                        <bar>foo-bar</bar>
-                                    </values>
-                                </nested>-->
-
-                            </options>
-                        </configuration>
-
                         <goals>
-                            <goal>process</goal>
+                            <goal>generate</goal>
                         </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/api/product-api.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <!-- disable test generation -->
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <modelPackage>org.example.skaria.elasticsearch.springboot3elasticsearch.dto</modelPackage>
+                            <modelNameSuffix>DTO</modelNameSuffix>
+                            <configOptions>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <delegatePattern>true</delegatePattern>
+                                <java8>true</java8>
+                                <!-- Important: Set model type to pojo for Lombok compatibility -->
+                                <modelType>pojo</modelType>
+
+                                <!-- This is the key: add your Lombok annotations here -->
+                                <additionalModelTypeAnnotations>
+                                    @lombok.Builder(toBuilder = true)
+                                    @lombok.Data
+                                    @lombok.NoArgsConstructor
+                                    @lombok.AllArgsConstructor
+                                </additionalModelTypeAnnotations>
+                            </configOptions>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

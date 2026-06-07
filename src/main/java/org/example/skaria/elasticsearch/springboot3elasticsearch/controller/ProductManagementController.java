@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.skaria.elasticsearch.springboot3elasticsearch.entity.ProductDocument;
 import org.example.skaria.elasticsearch.springboot3elasticsearch.mapper.ProductMapper;
-import org.example.skaria.elasticsearch.springboot3elasticsearch.model.ProductDTO;
+import org.example.skaria.elasticsearch.springboot3elasticsearch.dto.ProductDTO;
 import org.example.skaria.elasticsearch.springboot3elasticsearch.service.ProductManagementService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
