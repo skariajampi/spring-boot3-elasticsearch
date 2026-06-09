@@ -88,7 +88,7 @@ components:
               type: string
 
         # 5. Ratings
-        minRating:
+        avgRating:
           type: number
           format: double
 

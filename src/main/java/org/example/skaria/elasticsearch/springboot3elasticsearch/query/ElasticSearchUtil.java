@@ -2,8 +2,10 @@ package org.example.skaria.elasticsearch.springboot3elasticsearch.query;
 
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch._types.aggregations.TermsAggregation;
-import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.*;
+
+import java.util.List;
+import java.util.function.UnaryOperator;
 
 public class ElasticSearchUtil {
 
@@ -17,6 +19,22 @@ public class ElasticSearchUtil {
                 .caseInsensitive(true));
 
         return Query.of(builder -> builder.term(termQuery));
+    }
+
+    public static Query buildRangeQuery(String field, UnaryOperator<NumberRangeQuery.Builder> function) {
+        NumberRangeQuery numberRangeQuery = NumberRangeQuery.of(builder -> function.apply(builder.field(field)));
+        RangeQuery rangeQuery = RangeQuery.of(builder -> builder.number(numberRangeQuery));
+        return Query.of(builder -> builder.range(rangeQuery));
+    }
+
+    public static Query buildMultiMatchQuery(List<String> fields, String searchTerm) {
+        var multiMatchQuery = MultiMatchQuery.of(builder -> builder.query(searchTerm)
+                .fields(fields)
+                .fuzziness(Constants.Fuzzy.LEVEL)
+                .prefixLength(Constants.Fuzzy.PREFIX_LENGTH)
+                .type(TextQueryType.MostFields)
+                .operator(Operator.And));
+        return Query.of(builder -> builder.multiMatch(multiMatchQuery));
     }
 
     public static Aggregation buildTermsAggregation(String field){

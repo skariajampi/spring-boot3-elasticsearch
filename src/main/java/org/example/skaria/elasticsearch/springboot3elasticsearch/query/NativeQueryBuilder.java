@@ -20,9 +20,17 @@ public class NativeQueryBuilder {
     private NativeQueryBuilder(){}
 
     private static final List<QueryRule> FILTER_QUERY_RULES = List.of(
-            QueryRules.CATEGORY_QUERY,
-            QueryRules.TITLE_QUERY,
+            QueryRules.RATING_QUERY,
+            QueryRules.SEARCH_QUERY,
             QueryRules.BRAND_QUERY
+    );
+
+    private static final List<QueryRule> MUST_QUERY_RULES = List.of(
+            QueryRules.SEARCH_QUERY
+    );
+
+    private static final List<QueryRule> SHOULD_QUERY_RULES = List.of(
+            QueryRules.CATEGORY_QUERY
     );
 
     public static NativeQuery buildSearchQuery(SearchProductsRequestDTO searchProductsRequestDTO){
@@ -32,9 +40,11 @@ public class NativeQueryBuilder {
         log.info("Filter Queries: {}", filterQueries);
 
         //build must queries
-        List<Query> mustQueries = new ArrayList<>();
+        List<Query> mustQueries = buildQueries(MUST_QUERY_RULES, searchProductsRequestDTO);
+        log.info("Must Queries: {}", mustQueries);
         //build should queries
-        List<Query> shouldQueries = new ArrayList<>();
+        List<Query> shouldQueries = buildQueries(SHOULD_QUERY_RULES, searchProductsRequestDTO);
+        log.info("Should Queries: {}", shouldQueries);
         //build bool query
         BoolQuery boolQuery = BoolQuery.of(builder -> builder.filter(filterQueries)
                 .must(mustQueries)

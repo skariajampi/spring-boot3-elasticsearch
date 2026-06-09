@@ -160,7 +160,6 @@ public class ProductDocument {
             IMAGES("images"),
             ATTRIBUTES("attributes"),
             VARIANTS("variants"),
-            RATINGS("ratings"),
             CREATED_AT("created_at"),
             BOOST_SCORE("boost_score"),
             SUGGEST("suggest"),
@@ -233,6 +232,24 @@ public class ProductDocument {
                 return value;
             }
 
+        }
+
+        @Getter
+        public enum Ratings {
+            MAIN("ratings"),
+            AVERAGE("ratings.average"),
+            COUNT("ratings.count");
+
+            private String value;
+
+            Ratings(String value) {
+                this.value = value;
+            }
+
+            @Override
+            public String toString() {
+                return value;
+            }
         }
 
         @Getter
