@@ -1,5 +1,6 @@
 package org.example.skaria.elasticsearch.springboot3elasticsearch.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
+@Builder
 public class ProductVariant {
     @Field(name = "variant_id", type = FieldType.Keyword)
     private String variantId;

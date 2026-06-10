@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Profile("benchmark")
 @Component
@@ -23,12 +24,16 @@ public class DataSetLoader {
     private final List<String> adjectives;
     private final Map<String, List<String>> categories;
     private final ResourceLoader resourceLoader;
+    private final List<String> flattenedCategories;
 
     public DataSetLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
         this.brands = loadText("/benchmark/brands.txt");
         this.adjectives = loadText("/benchmark/adjectives.txt");
         this.categories = loadYaml("/benchmark/categories.yml");
+        this.flattenedCategories = categories.values().stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
     }
 
     private List<String> loadText(String path) {

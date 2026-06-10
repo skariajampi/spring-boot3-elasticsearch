@@ -90,6 +90,7 @@ public class ProductDocument {
     @Field(type = FieldType.Nested)
     private List<ProductVariant> variants;
 
+    @Field(type = FieldType.Nested)
     private Ratings ratings;
 
     @Field(type = FieldType.Date, format = DateFormat.date_time)

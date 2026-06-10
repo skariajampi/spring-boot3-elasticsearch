@@ -1,11 +1,13 @@
 package org.example.skaria.elasticsearch.springboot3elasticsearch.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.Map;
 
 @Data
+@Builder
 public class Ratings {
 
     @Field(type = FieldType.Float)

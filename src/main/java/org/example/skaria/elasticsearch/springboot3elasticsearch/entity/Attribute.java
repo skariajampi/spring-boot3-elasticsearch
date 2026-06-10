@@ -1,5 +1,6 @@
 package org.example.skaria.elasticsearch.springboot3elasticsearch.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -7,6 +8,7 @@ import org.springframework.data.elasticsearch.annotations.InnerField;
 import org.springframework.data.elasticsearch.annotations.MultiField;
 
 @Data
+@Builder
 public class Attribute {
     @Field(type = FieldType.Keyword)
     private String name;

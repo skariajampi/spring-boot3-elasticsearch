@@ -1,11 +1,13 @@
 package org.example.skaria.elasticsearch.springboot3elasticsearch.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 
 @Data
+@Builder
 public class StoreLocation {
     @Field(name = "store_id", type = FieldType.Keyword)
     private String storeId;
