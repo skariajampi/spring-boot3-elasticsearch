@@ -45,11 +45,31 @@ public class ProductGenerator {
             "Park Lane", "Victoria Road", "Queens Road", "New Road", "Manchester Road"
     );
 
-    private static final List<String> LOREM_SENTENCES = List.of(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+    // Pre-generated, high-quality descriptive components for full-text search indexing
+    private static final List<String> DESC_HOOKS = List.of(
+            "Experience the next level of performance with this engineered design.",
+            "An exceptional blend of modern style and everyday functionality.",
+            "Designed to seamlessly integrate into your daily routine and lifestyle.",
+            "Discover unmatched reliability and premium build quality out of the box.",
+            "The perfect solution for users seeking efficiency without compromising quality."
     );
+
+    private static final List<String> DESC_BENEFITS = List.of(
+            "Constructed using durable, sustainable materials for long-lasting life.",
+            "Features an ergonomic setup that optimizes comfort during extended use.",
+            "Engineered with cutting-edge technology to deliver maximum output.",
+            "Boasts a sleek, minimalist aesthetic that complements any modern space.",
+            "Includes advanced safety protections and highly intuitive user controls."
+    );
+
+    private static final List<String> DESC_CLOSINGS = List.of(
+            "Ideal for professionals and casual enthusiasts alike.",
+            "Backed by our standard comprehensive manufacturer warranty.",
+            "An excellent addition to your collection or an amazing gift choice.",
+            "Ships securely with an easy-to-follow setup instruction manual guide.",
+            "Upgrade your setup today and experience the difference yourself."
+    );
+
     private static final List<String> ADJECTIVES = List.of("Durable", "Ergonomic", "Eco-Friendly", "Premium", "Sleek", "Rustic", "Modern");
 
     // Pre-allocated immutable static structures to eliminate runtime heap allocation
@@ -73,7 +93,14 @@ public class ProductGenerator {
         String model = "" + (char) rand.nextInt(65, 91) + (char) rand.nextInt(65, 91) + "-" + rand.nextInt(100, 1000);
         // Manual efficient compilation instead of String.format
         String title = brand + " " + adjective + " " + category + " " + model;
-        String description = LOREM_SENTENCES.get(0) + " " + LOREM_SENTENCES.get(1) + " " + LOREM_SENTENCES.get(2);
+        // ⚡ NEW: Generate unique, searchable English descriptions on the fly
+        String description = new StringBuilder(180) // Pre-size buffer to prevent internal array copy resizes
+                .append(DESC_HOOKS.get(rand.nextInt(DESC_HOOKS.size())))
+                .append(" ")
+                .append(DESC_BENEFITS.get(rand.nextInt(DESC_BENEFITS.size())))
+                .append(" ")
+                .append(DESC_CLOSINGS.get(rand.nextInt(DESC_CLOSINGS.size())))
+                .toString();
 
         BigDecimal price = generatePrice(category);
         BigDecimal compareAtPrice = randomBoolean(0.3) ? price.multiply(BigDecimal.valueOf(1.2 + ThreadLocalRandom.current().nextDouble(0.5))) : null;
