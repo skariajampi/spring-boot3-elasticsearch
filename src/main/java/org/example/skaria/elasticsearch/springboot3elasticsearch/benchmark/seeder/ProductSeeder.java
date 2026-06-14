@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -31,7 +32,13 @@ public class ProductSeeder {
     private final AtomicBoolean running = new AtomicBoolean(false);
     // Create a dedicated executor service.
     // Virtual threads (Java 21+) are perfect for heavy blocking network I/O like ES indexing.
-    private final ExecutorService seederExecutor = Executors.newVirtualThreadPerTaskExecutor();
+    // This pool is strictly reserved for network HTTP requests to Elasticsearch
+    private final ExecutorService elasticsearchWorkerPool = Executors.newVirtualThreadPerTaskExecutor();
+
+    // A single dedicated platform thread just for generating data so it never starves the pool
+    private final ExecutorService generatorThread = Executors.newSingleThreadExecutor();
+    private static final int MAX_CONCURRENT_BATCHES = 4;
+    private final Semaphore backpressurePermits = new Semaphore(MAX_CONCURRENT_BATCHES);
 
     public CompletableFuture<Void> seed(String theDatasetVersion, int total, int batchSize) {
 
@@ -50,32 +57,37 @@ public class ProductSeeder {
         long startTime = System.currentTimeMillis();
         return CompletableFuture.supplyAsync(() -> {
             log.info("Started seeding {} products for data set version {}", total, theDatasetVersion);
-            List<IndexQuery> batch = new ArrayList<>();
+            List<IndexQuery> currentBatch = new ArrayList<>();
 
             try {
 
                 for (int i = 0; i < total; i++) {
                     ProductDocument productDocument = productGenerator.generate(i, theDatasetVersion);
-                    batch.add(new IndexQueryBuilder()
+                    currentBatch.add(new IndexQueryBuilder()
                             .withId(productDocument.getProductId())
                             .withObject(productDocument)
                             .build());
 
-                    if (batch.size() >= batchSize) {
-                        // Snapshot the batch and ship it off to a background thread task
-                        List<IndexQuery> batchToFlush = batch;
+                    if (currentBatch.size() >= batchSize) {
+                        // Snapshot the currentBatch and ship it off to a background thread task
+                        List<IndexQuery> batchToFlush = currentBatch;
+                        // ACQUIRE PERMIT: Blocks generator thread if MAX_CONCURRENT_BATCHES are currently in flight
+                        backpressurePermits.acquire();
+
                         futures.add(submitBatch(batchToFlush, successfulCount));
 
-                        // Open a fresh list for the next batch immediately without waiting
-                        batch = new ArrayList<>(batchSize);
+                        // Open a fresh list for the next currentBatch immediately without waiting
+                        currentBatch = new ArrayList<>(batchSize);
                     }
                 }
 
 
 
                 // Flush out any remaining trailing documents
-                if (!batch.isEmpty()) {
-                    futures.add(submitBatch(batch, successfulCount));
+                if (!currentBatch.isEmpty()) {
+                    // ACQUIRE PERMIT: Blocks generator thread if MAX_CONCURRENT_BATCHES are currently in flight
+                    backpressurePermits.acquire();
+                    futures.add(submitBatch(currentBatch, successfulCount));
                 }
 
                 // Wait for ALL concurrent background flush operations to finish completely
@@ -83,22 +95,31 @@ public class ProductSeeder {
 
                 long duration = System.currentTimeMillis() - startTime;
 
-                log.info("Finished seeding {}/{} products for data set version {}", successfulCount, total, theDatasetVersion);
+                log.info("Finished seeding {}/{} products in {} ms for data set version {}", successfulCount.get(), total, duration, theDatasetVersion);
                 //return CompletableFuture.completedFuture(null);
                 if (successfulCount.get() != total) {
                     throw new RuntimeException(String.format(
                             "Only %d out of %d documents were indexed", successfulCount, total));
                 }
                 return null;
-            } catch (Exception e) {
+            }
+            catch (InterruptedException e) {
+                log.error("Seeder pipeline interrupted", e);
+                Thread.currentThread().interrupt();
+                throw new RuntimeException(e);
+            }
+            catch (Exception e) {
                 log.error("Error seeding products for data set version {}", theDatasetVersion, e);
                 //return CompletableFuture.failedFuture(e);
                 throw new RuntimeException(e);
             } finally {
+                // Ensure we reset permits back to maximum on completion or crash
+                backpressurePermits.drainPermits();
+                backpressurePermits.release(MAX_CONCURRENT_BATCHES);
                 running.set(false);
                 log.info("Seeder unlocked");
             }
-        }, seederExecutor);//Runs the entire generation pipeline context on our dedicated executor
+        }, generatorThread);// RUN GENERATOR ON ITS OWN DEDICATED THREAD
     }
 
     private CompletableFuture<Void> submitBatch(List<IndexQuery> batchToFlush, AtomicInteger successfulCount) {
@@ -111,8 +132,11 @@ public class ProductSeeder {
             } catch (Exception e) {
                 log.error("Failed to asynchronously flush bulk batch array payload downstream to Elasticsearch cluster", e);
                 throw e;
+            }finally {
+                // GUARANTEED RELEASE: Runs no matter what happens inside the execution block
+                backpressurePermits.release();
             }
-        }, seederExecutor);
+        }, elasticsearchWorkerPool);// RUN FLUSH TASKS ON THE HTTP WORKER POOL
     }
 
     private int flush(List<IndexQuery> batch) {

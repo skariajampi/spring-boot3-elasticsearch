@@ -53,3 +53,15 @@ PUT products-000001
 mappings:mappings
 aliases:aliases
 }
+
+# How to seed data into elastic search:
+## Start the Spring boot application
+## Run the following command, using Intellij Http Client or Postman, etc:
+POST http://localhost:8080/benchmark/seed
+Content-Type: application/json
+
+{
+"datasetVersion": "1.0",
+"total": 1000000,
+"batchSize": 3500
+}
