@@ -148,7 +148,6 @@ public class ProductDocument {
         public enum Core {
             PRODUCT_ID("product_id"),
             SKU("sku"),
-            DESCRIPTION("description"),
             STATUS("status"),
             CATEGORY("category"),
             CATEGORY_PATH("category_path"),
@@ -207,6 +206,23 @@ public class ProductDocument {
             private String value;
 
             Title(String value) {
+                this.value = value;
+            }
+
+            @Override
+            public String toString() {
+                return value;
+            }
+        }
+
+        @Getter
+        public enum Description {
+            MAIN("description"),
+            ENGLISH("description.english");
+
+            private String value;
+
+            Description(String value) {
                 this.value = value;
             }
 

@@ -155,7 +155,7 @@ components:
           type: boolean
         status:
           type: string
-          enum: [ACTIVE, OUT_OF_STOCK, DISCONTINUED]
+          enum: [ACTIVE, INACTIVE, DISCONTINUED, COMING_SOON ]
         images:
           type: array
           items:

@@ -20,8 +20,7 @@ public class QueryRules {
 
     private static final List<String> SEARCH_BOOST_FIELDS = List.of(
             boostField(ProductDocument.Fields.Title.MAIN.getValue(), 2.0f),
-            boostField(ProductDocument.Fields.Core.CATEGORY.getValue(), 1.5f),
-            boostField(ProductDocument.Fields.Brand.MAIN.getValue(), 1.5f)
+            boostField(ProductDocument.Fields.Description.ENGLISH.getValue(), 1.5f)
     );
 
     public static final QueryRule SEARCH_QUERY = QueryRule.of(
@@ -36,7 +35,7 @@ public class QueryRules {
 
     public static final QueryRule CATEGORY_QUERY = QueryRule.of(
             srp -> Objects.nonNull(srp.getQuery()),
-            srp -> buildTermQuery(ProductDocument.Fields.Core.CATEGORY.getValue(), srp.getQuery(), 1.0f)
+            srp -> buildTermQuery(ProductDocument.Fields.Core.CATEGORY.getValue(), srp.getCategory(), 1.0f)
     );
 
     private static String boostField(String field, float boost){

@@ -69,4 +69,16 @@ public interface ProductMapper {
     }
 
     ProductDocument toDocument(ProductDTO productDTO);
+
+    default ProductDTO.StatusEnum mapStringToStatus(String status) {
+        if (status == null) {
+            return null;
+        }
+        try {
+            return ProductDTO.StatusEnum.valueOf(status.toUpperCase().trim());
+        } catch (IllegalArgumentException e) {
+            // Handle fallback safely if ES returns a weird value not defined in your enum
+            return null;
+        }
+    }
 }

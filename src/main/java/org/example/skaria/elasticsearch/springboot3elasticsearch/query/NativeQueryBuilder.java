@@ -21,7 +21,6 @@ public class NativeQueryBuilder {
 
     private static final List<QueryRule> FILTER_QUERY_RULES = List.of(
             QueryRules.RATING_QUERY,
-            QueryRules.SEARCH_QUERY,
             QueryRules.BRAND_QUERY
     );
 

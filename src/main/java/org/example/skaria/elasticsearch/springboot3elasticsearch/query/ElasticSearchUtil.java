@@ -28,12 +28,20 @@ public class ElasticSearchUtil {
     }
 
     public static Query buildMultiMatchQuery(List<String> fields, String searchTerm) {
-        var multiMatchQuery = MultiMatchQuery.of(builder -> builder.query(searchTerm)
+        var multiMatchQuery = MultiMatchQuery.of(builder -> builder
+                .query(searchTerm)
                 .fields(fields)
-                .fuzziness(Constants.Fuzzy.LEVEL)
+                .fuzziness(Constants.Fuzzy.LEVEL)//issue with crossfields
                 .prefixLength(Constants.Fuzzy.PREFIX_LENGTH)
-                .type(TextQueryType.MostFields)
-                .operator(Operator.And));
+                //.type(TextQueryType.CrossFields)
+                .type(TextQueryType.BestFields)
+                //.operator(Operator.And)
+                // // Amazon-style logic:
+                //            // - 2 words or fewer? 100% must match.
+                //            // - 3 to 5 words? All words minus 1 must match.
+                //            // - More than 5 words? 70% of the words must match.
+                .minimumShouldMatch("2<-1 5<70%"));
+
         return Query.of(builder -> builder.multiMatch(multiMatchQuery));
     }
 
